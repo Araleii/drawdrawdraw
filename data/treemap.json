@@ -1,0 +1,949 @@
+[
+  {
+    "name": "Repository",
+    "itemStyle": {
+      "normal": {
+        "color": "#99cccc"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "fork:true",
+        "value": 6,
+        "children": [
+          {
+            "name": "hasIssue:true",
+            "value": 6,
+            "children": [
+              {
+                "name": "watchersCount:<100",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=100&<1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "hasIssue:false",
+            "value": 6,
+            "children": [
+              {
+                "name": "watchersCount:<100",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=100&<1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "fork:false",
+        "value": 6,
+        "children": [
+          {
+            "name": "hasIssue:true",
+            "value": 6,
+            "children": [
+              {
+                "name": "watchersCount:<100",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=100&<1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "hasIssue:false",
+            "value": 6,
+            "children": [
+              {
+                "name": "watchersCount:<100",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=100&<1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "watchersCount:>=1000",
+                "value": 6,
+                "children": [
+                  {
+                    "name": "contributorsCount:<50",
+                    "value": 3
+                  },
+                  {
+                    "name": "contributorsCount:>=50",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Developer",
+    "itemStyle": {
+      "normal": {
+        "color": "#99ccff"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "createAt:before 2010",
+        "value": 6,
+        "children": [
+          {
+            "name": "followersCount:<100",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          },
+          {
+            "name": "followersCount:>=100&<1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          },
+          {
+            "name": "followersCount:>=1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "createAt:2010-2013",
+        "value": 6,
+        "children": [
+          {
+            "name": "followersCount:<100",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          },
+          {
+            "name": "followersCount:>=100&<1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          },
+          {
+            "name": "followersCount:>=1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "createAt:2013-2016",
+        "value": 6,
+        "children": [
+          {
+            "name": "followersCount:<100",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          },
+          {
+            "name": "followersCount:>=100&<1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          },
+          {
+            "name": "followersCount:>=1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "contributions:<100",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=100&<1000",
+                "value": 7
+              },
+              {
+                "name": "contributions:>=1000",
+                "value": 7
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Commit",
+    "itemStyle": {
+      "normal": {
+        "color": "#9999cc"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "authorName=commitName",
+        "value": 6,
+        "children": [
+          {
+            "name": "commitDate:before 2010",
+            "value": 7
+          },
+          {
+            "name": "commitDate:2010-2012",
+            "value": 7074
+          },
+          {
+            "name": "commitDate:2012-2014",
+            "value": 7074
+          },
+          {
+            "name": "commitDate:2014-2016",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "authorName!=commitName",
+        "value": 6,
+        "children": [
+          {
+            "name": "commitDate:before 2010",
+            "value": 7074
+          },
+          {
+            "name": "commitDate:2010-2012",
+            "value": 7074
+          },
+          {
+            "name": "commitDate:2012-2014",
+            "value": 7074
+          },
+          {
+            "name": "commitDate:2014-2016",
+            "value": 7074
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "CommitFile",
+    "itemStyle": {
+      "normal": {
+        "color": "#ccff99"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "change:<100",
+        "value": 6,
+        "children": [
+          {
+            "name": "addition:<100",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          },
+          {
+            "name": "addition:>=100&<1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          },
+          {
+            "name": "addition:>=1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "change:>=100&<1000",
+        "value": 6,
+        "children": [
+          {
+            "name": "addition:<100",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          },
+          {
+            "name": "addition:>=100&<1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          },
+          {
+            "name": "addition:>=1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "change:>=1000",
+        "value": 6,
+        "children": [
+          {
+            "name": "addition:<100",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          },
+          {
+            "name": "addition:>=100&<1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          },
+          {
+            "name": "addition:>=1000",
+            "value": 6,
+            "children": [
+              {
+                "name": "deletion:<100",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=100&<1000",
+                "value": 7074
+              },
+              {
+                "name": "deletion:>=1000",
+                "value": 7074
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "File",
+    "itemStyle": {
+      "normal": {
+        "color": "#ccffcc"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "size:<100",
+        "value": 7074
+      },
+      {
+        "name": "size:>=100&<1000",
+        "value": 7074
+      },
+      {
+        "name": "size:>=1000",
+        "value": 7074
+      }
+    ]
+  },
+  {
+    "name": "Issues",
+    "itemStyle": {
+      "normal": {
+        "color": "#ccccff"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "locked:true",
+        "value": 6,
+        "children": [
+          {
+            "name": "creatAt:before 2010",
+            "value": 7074
+          },
+          {
+            "name": "creatAt:2010-2013",
+            "value": 7074
+          },
+          {
+            "name": "creatAt:2013-2016",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "locked:false",
+        "value": 6,
+        "children": [
+          {
+            "name": "creatAt:before 2010",
+            "value": 7074
+          },
+          {
+            "name": "creatAt:2010-2013",
+            "value": 7074
+          },
+          {
+            "name": "creatAt:2013-2016",
+            "value": 7074
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Release",
+    "itemStyle": {
+      "normal": {
+        "color": "#ffffcc"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "Published_at:before 2010",
+        "value": 6,
+        "children": [
+          {
+            "name": "commitsCount:<50",
+            "value": 7074
+          },
+          {
+            "name": "commitsCount:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "commitsCount:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "Published_at:2010-2013",
+        "value": 6,
+        "children": [
+          {
+            "name": "commitsCount:<50",
+            "value": 7074
+          },
+          {
+            "name": "commitsCount:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "commitsCount:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "Published_at:2013-2016",
+        "value": 6,
+        "children": [
+          {
+            "name": "commitsCount:<50",
+            "value": 7074
+          },
+          {
+            "name": "commitsCount:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "commitsCount:>=100",
+            "value": 7074
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Project",
+    "itemStyle": {
+      "normal": {
+        "color": "#ffeecc"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "similar_projects:<10",
+        "value": 7074
+      },
+      {
+        "name": "similar_projects:>=10&<50",
+        "value": 7074
+      },
+      {
+        "name": "similar_projects:>=50",
+        "value": 7074
+      }
+    ]
+  },
+  {
+    "name": "ProjectNews",
+    "itemStyle": {
+      "normal": {
+        "color": "#ffaacc"
+      }
+    },
+    "value": 6,
+    "children": [
+      {
+        "name": "languages.code_name:java",
+        "value": 6,
+        "children": [
+          {
+            "name": "team_size:<50",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "languages.code_name:JavaScropt",
+        "value": 6,
+        "children": [
+          {
+            "name": "team_size:<50",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "languages.code_name:Ruby",
+        "value": 6,
+        "children": [
+          {
+            "name": "team_size:<50",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "languages.code_name:Python",
+        "value": 6,
+        "children": [
+          {
+            "name": "team_size:<50",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "languages.code_name:C++",
+        "value": 6,
+        "children": [
+          {
+            "name": "team_size:<50",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "languages.code_name:shell script",
+        "value": 6,
+        "children": [
+          {
+            "name": "team_size:<50",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=100",
+            "value": 7074
+          }
+        ]
+      },
+      {
+        "name": "languages.code_name:OTHERS",
+        "value": 6,
+        "children": [
+          {
+            "name": "team_size:<50",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=50&<100",
+            "value": 7074
+          },
+          {
+            "name": "team_size:>=100",
+            "value": 7074
+          }
+        ]
+      }
+    ]
+  }
+]
