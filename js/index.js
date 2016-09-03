@@ -9,10 +9,17 @@ d3.json("data/treemap.json", function (error, list) {
         .append("g")
         .attr("transform", "translate(0,0)");
 
+
+    //          temp_layer -> list_node
+    // root ->  temp_layer -> list_node
+    //          temp_layer -> list_node
+
     var root = {
-        name: "root",
+        name: "",
         children: list
-    }
+    };
+
+    console.log(root);
 
     var cnt = 0;
 
@@ -29,9 +36,6 @@ d3.json("data/treemap.json", function (error, list) {
     }
 
     set_id(root);
-    console.log(root);
-
-    // draw(root, 400, 400, 400);
 
     var root_r = 400;
     var root_x = 600;
@@ -49,7 +53,8 @@ d3.json("data/treemap.json", function (error, list) {
             x: root_x,
             y: root_y,
             father: root.father,
-            id: root.id
+            id: root.id,
+            show: 1
         }
     ];
 
@@ -57,15 +62,35 @@ d3.json("data/treemap.json", function (error, list) {
         var cx = root_x + (root_r - in_r) * Math.sin(ang * i + Math.PI / 4.0);
         var cy = root_y + (root_r - in_r) * Math.cos(ang * i + Math.PI / 4.0);
         nodes.push({
-            name: root.children[i].name,
+            name: "",
             depth: 1,
             r: in_r,
             x: cx,
             y: cy,
-            children: root.children[i].children,
-            father: root,
             id: root.children[i].id,
+            node: root,
+            show: 1
         })
+    }
+
+    for (var i = 0; i < tot; i++) {
+        var cx = root_x + (root_r - in_r) * Math.sin(ang * i + Math.PI / 4.0);
+        var cy = root_y + (root_r - in_r) * Math.cos(ang * i + Math.PI / 4.0);
+        nodes.push({
+            name: root.children[i].name,
+            depth: 2,
+            r: in_r,
+            x: cx,
+            y: cy,
+            base: nodes[i + 1],
+            id: root.children[i].id,
+            node: root.children[i],
+            show: 1
+        })
+    }
+
+    for (var i = 1; i <= tot; i++) {
+        nodes[i].children = [nodes[i + tot]];
     }
 
     draw(root, root_r, root_x, root_y);
@@ -75,57 +100,55 @@ d3.json("data/treemap.json", function (error, list) {
         if (root.depth > 1) {
 
             var nodes_cnt = nodes.length;
+            var base = root.base;
+
             for (var i = 0; i < nodes_cnt; i++) {
-                for (var j = 0; j < root.father.children.length; j++) {
-                    if (nodes[i].name == root.father.children[j].name) {
-                        nodes.splice(i, 1);
-                        i--;
-                        nodes_cnt--;
+                for (var j = 0; j < base.children.length; j++) {
+                    if (nodes[i].name == base.children[j].name) {
+                        //nodes.splice(i, 1);
+                        //i--;
+                        //nodes_cnt--;
+                        nodes[i].name = "";
+                        nodes[i].show = 0;
                         break;
                     }
                 }
             }
-            
-            for (var i = 0;i < root.father.children.length; i++) {
-                svg.select("#circle" + root.father.children[i].id)
-                    .on("mouseover", null)
-                    .on("mouseout", null)
-                    .on("dblclick", null);
 
-                svg.select("#circle" + root.father.children[i].id)
+            for (var i = 0; i < base.children.length && false; i++) {
+                svg.selectAll("#text" + base.children[i].id)
                     .remove();
-                
-                svg.select("#text" + root.father.children[i].id)
-                    .remove();
-            }
-        }  
-        
-        if (root.depth > 0) {
-            
-            if (root.depth == 1) {
-                svg.select("#text" + root.id)
+                svg.selectAll("#circle" + base.children[i].id)
                     .remove();
             }
 
-            var tot = root.children.length;
+            base.children = [];
+            var tot = root.node.children.length;
             var ang = Math.PI * 2.0 / tot;
             var in_r = root_r * 1.0 / 4;
             for (var i = 0; i < tot; i++) {
                 var cx = root_x + (root_r - in_r) * Math.sin(ang * i + Math.PI / 3.0);
                 var cy = root_y + (root_r - in_r) * Math.cos(ang * i + Math.PI / 3.0);
-                nodes.push({
-                    name: root.children[i].name,
+                var obj = {
+                    name: root.node.children[i].name,
                     depth: root.depth + 1,
                     r: in_r,
                     x: cx,
                     y: cy,
-                    children: root.children[i].children,
-                    father: root,
-                    id: root.children[i].id,
-                })
+                    base: base,
+                    id: root.node.children[i].id,
+                    node: root.node.children[i],
+                    show: 1,
+                };
+                nodes.push(obj);
+                base.children.push(obj)
             }
+        } else if (root.depth == 1) {
+
         }
 
+        svg.selectAll('*')
+            .remove();
 
         svg.selectAll("circle")
             .data(nodes)
@@ -136,10 +159,14 @@ d3.json("data/treemap.json", function (error, list) {
                 return "circle" + d.id;
             })
             .attr("fill-opacity", function (d) {
-                if (d.depth > 0)
-                    return "0.4";
-                else
-                    return "0.1";
+                if (d.show == 1) {
+                    if (d.depth > 1)
+                        return "0.4";
+                    else
+                        return "0.1";
+                } else {
+                    return "0.0";
+                }
             })
             .attr("cx", function (d) {
                 return d.x;
@@ -151,10 +178,13 @@ d3.json("data/treemap.json", function (error, list) {
                 return d.r;
             })
             .on("dblclick", function (d, i) {
-                if (d.depth > 1) {
-                    draw(d, d.father.r, d.father.x, d.father.y);
-                } else if (d.depth == 1) {
-                    draw(d, d.r, d.x, d.y);
+                if (d.node.children != null && d.show == 1) {
+                    if (d.depth > 1) {
+                        draw(d, d.base.r, d.base.x, d.base.y);
+                    }
+                    if (d.depth == 1) {
+
+                    }
                 }
             });
 
@@ -168,7 +198,7 @@ d3.json("data/treemap.json", function (error, list) {
                 return "text" + d.id;
             })
             .attr("fill-opacity", function (d) {
-                if (d.depth >= 0)
+                if (d.depth >= 2)
                     return "0.9";
                 else
                     return "0.5";
