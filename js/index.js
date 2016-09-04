@@ -54,7 +54,7 @@ d3.json("data/treemap.json", function (error, list) {
     }
 
     set_id(root);
-    console.log(root);
+    // console.log(root);
 
     var root_r = 400;
     var root_x = 600;
@@ -432,6 +432,14 @@ d3.json("data/treemap.json", function (error, list) {
 
         segs = [];
         var seg_res = res.split(",");
+        
+        var max_res = 0; 
+        for (var i = 0; i < shown_nodes.length; i++) {  
+            if (max_res < seg_res[i]) {
+                max_res = seg_res[i];
+            }
+        }
+
         for (var i = 0; i < shown_nodes.length; i++) {
             if (seg_res[i] > 0) {
                 segs.push({
@@ -439,6 +447,7 @@ d3.json("data/treemap.json", function (error, list) {
                     y1: center.y,
                     x2: shown_nodes[i].x,
                     y2: shown_nodes[i].y,
+                    stroke_width: 10.0 * seg_res[i] / max_res,
                     value: seg_res[i],
                     name1: center.name,
                     name2: shown_nodes[i].name,
@@ -450,7 +459,11 @@ d3.json("data/treemap.json", function (error, list) {
             .data(segs)
             .enter()
             .append("line")
-            .attr("stroke", "black")
+            .attr("stroke", "rgb(31, 119, 180)")
+            .attr("stroke-width", function (d) {
+                return d.stroke_width;
+            })
+            .attr("stroke-opacity", "0.4")
             .attr("x1", function (d) {
                 return d.x1;
             })
@@ -544,7 +557,7 @@ d3.json("data/treemap.json", function (error, list) {
         // 该函数主要画关系对应表
         function draw_table(data) {
 
-            console.log(data);
+            // console.log(data);
             var res = JSON.parse(data);
             
             var max_length = Math.max(res.namelist1.length, res.namelist2.length);
@@ -671,4 +684,3 @@ d3.json("data/treemap.json", function (error, list) {
         }
     }
 });
-
