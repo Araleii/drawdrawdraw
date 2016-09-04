@@ -19,8 +19,6 @@ d3.json("data/treemap.json", function (error, list) {
         children: list
     };
 
-    console.log(root);
-
     var cnt = 0;
 
     function set_id(root) {
@@ -98,13 +96,16 @@ d3.json("data/treemap.json", function (error, list) {
         nodes[i].children = [nodes[i + tot]];
     }
 
-    segs = [];
-    segs.push({
-        x1: 100,
-        y1: 100,
-        x2: 300,
-        y2: 300,
-    });
+    // These 6 variable below are for draw lines
+    var xmlhttp;
+    var qs;
+    var shown_nodes;
+    var center;
+    var segs;
+    // var segs_drawn = false; //is segs already be drawn
+
+    // for all text
+    var text_data = [];
 
     draw(root, root_r, root_x, root_y);
 
@@ -241,19 +242,30 @@ d3.json("data/treemap.json", function (error, list) {
         svg.selectAll('*')
             .remove();
 
-        s = [];
-        for (var i = 0; i < nodes.length; i++) {
-            s.push(nodes[i].z_index);
-        }
-        console.log(s);
         nodes.sort(function (a, b) {
             return a.z_index - b.z_index;
         });
-        s = [];
+
+        text_data = [];
         for (var i = 0; i < nodes.length; i++) {
-            s.push(nodes[i].z_index);
+            var ty = nodes[i].y;
+            if (nodes[i].depth <= 1) {
+                ty = nodes[i].y + nodes[i].r + 20;
+            }
+            var fo = "0.9";
+            if (nodes[i].depth < 2) {
+                fo = "0.5";
+            }
+            text_data.push({
+                x: nodes[i].x - 20,
+                y: ty,
+                font_size: "10px",
+                fill_opacity: fo,
+                value: nodes[i].name,
+                type: "name",
+            });
         }
-        console.log(s);
+
         svg.selectAll("circle")
             .data(nodes)
             .enter()
@@ -287,59 +299,214 @@ d3.json("data/treemap.json", function (error, list) {
             .attr("r", function (d) {
                 return d.r;
             })
-            .on("click", function (d) {
-                if (d.show == 1) {
-                    svg.selectAll("circle")
-                        .attr("fill", "rgb(31, 119, 180)")
-                        .style("stroke", "")
-                    d3.select(this)
-                        .attr("fill", "yellow")
-                        .style("stroke", "red")
-                        .style("stroke-width", "2px")
-                        .style("stroke-opacity", 0.3)
-                }
-            })
-            .on("dblclick", function (d) {
-                console.log(d.name);
-                if (d.node.children != null) {
-                    if (d.depth > 1) {
-                        draw(d, d.base.r, d.base.x, d.base.y);
+            .on("mousedown", function (d) {
+                if (d3.event.button == 0) {
+                    if (d.show == 1 && d.depth > 0) {
+                        svg.selectAll("circle")
+                            .attr("fill", "rgb(31, 119, 180)")
+                            .style("stroke", "")
+                        d3.select(this)
+                            .attr("fill", "yellow")
+                            .style("stroke", "red")
+                            .style("stroke-width", "2px")
+                            .style("stroke-opacity", 0.3)
+                        get_segs(d);
+                    } else if (d.depth == 0) {
+                        get_segs(null);
                     }
-                    if (d.depth == 1) {
+                } else if (d3.event.button == 2) {
+                    if (d.depth > 0 && d.node.children != null) {
+                        if (d.depth > 1) {
+                            draw(d, d.base.r, d.base.x, d.base.y);
+                        }
+                        if (d.depth == 1) {
 
+                        }
                     }
                 }
             });
 
         svg.selectAll("text")
-            .data(nodes)
+            .data(text_data)
             .enter()
             .append("text")
-            .attr("font-size", "10px")
-            .attr("fill", "black")
-            .attr("id", function (d) {
-                return "text" + d.id;
+            .attr("font-size", function (d) {
+                return d.font_size;
             })
+            .attr("fill", "black")
             .attr("fill-opacity", function (d) {
-                if (d.depth >= 2)
-                    return "0.9";
-                else
-                    return "0.5";
+                return d.fill_opacity;
             })
             .attr("x", function (d) {
-                return d.x - 20;
+                return d.x;
             })
             .attr("y", function (d) {
-                if (d.depth > 1) {
-                    return d.y;
-                } else {
-                    return d.y + d.r + 20;
-                }
+                return d.y;
             })
             .attr("dx", -12)
             .attr("dy", 1)
             .text(function (d) {
-                return d.name;
+                return d.value;
+            });
+
+    }
+
+
+    // format qs:
+    // x,y1,y2,y3,y4,y5
+    function query(qs) {
+        var url = "http://127.0.0.1:10000/get.php?qs=" + qs;
+        xmlhttp = null;
+        if (window.XMLHttpRequest) {// code for Firefox, Opera, IE7, etc.
+            xmlhttp = new XMLHttpRequest();
+        }
+        else if (window.ActiveXObject) {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (xmlhttp != null) {
+            xmlhttp.onreadystatechange = state_Change;
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send(null);
+        }
+        else {
+            alert("Your browser does not support XMLHTTP.");
+        }
+    }
+
+    function state_Change() {
+        if (xmlhttp.readyState == 4) {// 4 = "loaded"
+            if (xmlhttp.status == 200) {// 200 = "OK"
+                console.log(xmlhttp.responseText);
+                draw_seg(xmlhttp.responseText);
+            }
+            else {
+                console.log("Problem retrieving data:" + xmlhttp.statusText);
+            }
+        }
+    }
+
+    function get_segs(c) {
+        if (c != null) {
+            qs = "";
+            shown_nodes = [];
+            center = c;
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].show == 1 && nodes[i].depth > 1 && nodes[i].base != center.base && nodes[i].id != center.id) {
+                    shown_nodes.push(nodes[i]);
+                    qs += nodes[i].name;
+                    if (i != nodes.length - 1) {
+                        qs += ",";
+                    }
+                }
+            }
+            query(qs);
+        } else {
+            draw_seg("");
+        }
+    }
+
+
+    function draw_seg(res) {
+
+        svg.selectAll('line')
+            .remove();
+
+        segs = [];
+        var seg_res = res.split(",");
+        for (var i = 0; i < shown_nodes.length; i++) {
+            if (seg_res[i] > 0) {
+                segs.push({
+                    x1: center.x,
+                    y1: center.y,
+                    x2: shown_nodes[i].x,
+                    y2: shown_nodes[i].y,
+                    value: seg_res[i],
+                });
+            }
+        }
+
+        svg.selectAll("line")
+            .data(segs)
+            .enter()
+            .append("line")
+            .attr("stroke", "black")
+            .attr("x1", function (d) {
+                return d.x1;
+            })
+            .attr("y1", function (d) {
+                return d.y1;
+            })
+            .attr("x2", function (d) {
+                return d.x2;
+            })
+            .attr("y2", function (d) {
+                return d.y2;
+            })
+            .text("test");
+
+
+        svg.selectAll('text')
+            .remove();
+
+        text_data = [];
+        for (var i = 0; i < nodes.length; i++) {
+            var ty = nodes[i].y;
+            if (nodes[i].depth <= 1) {
+                ty = nodes[i].y + nodes[i].r + 20;
+            }
+            var fo = "0.9";
+            if (nodes[i].depth < 2) {
+                fo = "0.5";
+            }
+            text_data.push({
+                x: nodes[i].x - 20,
+                y: ty,
+                font_size: "10px",
+                fill_opacity: fo,
+                value: nodes[i].name,
+            });
+        }
+
+        for (var i = 0; i < segs.length; i++) {
+            text_data.push({
+                x: (segs[i].x1 + segs[i].x2) / 2.0,
+                y: (segs[i].y1 + segs[i].y2) / 2.0,
+                font_size: "20px",
+                fill_opacity: "0.9",
+                value: segs[i].value,
+                type: "value",
+            });
+        }
+
+        svg.selectAll("text")
+            .data(text_data)
+            .enter()
+            .append("text")
+            .attr("font-size", function (d) {
+                return d.font_size;
+            })
+            .attr("fill", function (d) { 
+                if (d.type == "value") {
+                    return "red";
+                } else {
+                    return "black";
+                }
+            })
+            .attr("x", function (d) {
+                return d.x
+            })
+            .attr("y", function (d) {
+                return d.y;
+            })
+            .attr("dx", -12)
+            .attr("dy", 1)
+            .on("click", function (d) {
+                if (d.type == "value") {
+                    $('#myModal').modal('show');
+                }
+            })
+            .text(function (d) {
+                return d.value;
             });
     }
 });
