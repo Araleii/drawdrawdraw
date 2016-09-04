@@ -35,6 +35,7 @@ d3.json("data/treemap.json", function (error, list) {
         }
 
     }
+
     set_id(root);
     console.log(root);
 
@@ -56,7 +57,7 @@ d3.json("data/treemap.json", function (error, list) {
             father: root.father,
             id: root.id,
             show: 1,
-            z_index: -1, 
+            z_index: -2,
         }
     ];
 
@@ -72,7 +73,7 @@ d3.json("data/treemap.json", function (error, list) {
             id: -1,
             node: root,
             show: 1,
-            z_index: -1, 
+            z_index: -2,
         })
     }
 
@@ -89,7 +90,7 @@ d3.json("data/treemap.json", function (error, list) {
             id: root.children[i].id,
             node: root.children[i],
             show: 1,
-            z_index: 0, 
+            z_index: 1,
         })
     }
 
@@ -114,7 +115,7 @@ d3.json("data/treemap.json", function (error, list) {
                         //nodes_cnt--;
                         nodes[i].name = "";
                         nodes[i].show = 0;
-                        nodes[i].z_index = -1;
+                        nodes[i].z_index = 0;
                         break;
                     }
                 }
@@ -132,7 +133,7 @@ d3.json("data/treemap.json", function (error, list) {
             var ang = Math.PI * 2.0 / tot;
             var in_r = root_r * 1.0 / 4;
             var has_drawn = false;
-            
+
             //find if already exist
             for (var i = 0; i < nodes_cnt; i++) {
                 for (var j = 0; j < tot; j++) {
@@ -143,7 +144,7 @@ d3.json("data/treemap.json", function (error, list) {
                         nodes[i].z_index = 1;
                         base.children.push(nodes[i]);
                     }
-                }     
+                }
             }
 
             // if has not been drew, add new nodes 
@@ -179,7 +180,7 @@ d3.json("data/treemap.json", function (error, list) {
                         //nodes_cnt--;
                         nodes[i].name = "";
                         nodes[i].show = 0;
-                        nodes[i].z_index = -1;
+                        nodes[i].z_index = 0;
                         break;
                     }
                 }
@@ -216,6 +217,19 @@ d3.json("data/treemap.json", function (error, list) {
         svg.selectAll('*')
             .remove();
 
+        s = [];
+        for (var i = 0; i < nodes.length; i++) {
+            s.push(nodes[i].z_index);
+        }
+        console.log(s);
+        nodes.sort(function (a, b) {
+            return a.z_index - b.z_index;
+        });
+        s = [];
+        for (var i = 0; i < nodes.length; i++) {
+            s.push(nodes[i].z_index);
+        }
+        console.log(s);
         svg.selectAll("circle")
             .data(nodes)
             .enter()
@@ -226,6 +240,9 @@ d3.json("data/treemap.json", function (error, list) {
             })
             .attr("name", function (d) {
                 return d.name;
+            })
+            .attr("z-index", function (d) {
+                return d.z_index;
             })
             .attr("fill-opacity", function (d) {
                 if (d.show == 1) {
@@ -246,17 +263,17 @@ d3.json("data/treemap.json", function (error, list) {
             .attr("r", function (d) {
                 return d.r;
             })
-            .style("z-index", function (d) {
-                return d.z_index.toString();
+            .on("click", function (d) {
+                console.log(d.id);
             })
-            .on("dblclick", function (d, i) {
+            .on("dblclick", function (d) {
                 console.log(d.name);
                 if (d.node.children != null) {
                     if (d.depth > 1) {
                         draw(d, d.base.r, d.base.x, d.base.y);
                     }
                     if (d.depth == 1) {
-                        
+
                     }
                 }
             });
