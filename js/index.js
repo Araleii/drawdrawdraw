@@ -1,3 +1,22 @@
+// 服务端需要实现对两种请求的处理:
+// 1.
+// 请求数据为这样格式的字符串:  "node0,node1,node2,...,noden"
+// 意思是查询node0 与 [node1, node2, ... , noden] 这些节点的关系, 其中每个node都是一个名字
+// 对于该请求,需要返回的数据格式为:    "value1, value2, value3, ... , valuen" 这样的一个以逗号分隔的字符串
+// value1代表node0与node1的关系权值,以此类推.
+//
+// 2.
+// 请求数据格式为: "name1, name2"  这样的字符串
+// 返回数据为一个json字符串: 有3个list, 第一个list为左边一列的元素,对应于name1, 第二个list为右边一列的元素,对应于name2; 
+// 这两个list都有name和id两个值;最后一个list是一个(a_id, b_id)的这样格式得list
+// 表示所有的边. 需要注意的是,返回的两个name list的id都要从0到长度-1.
+// 以上3个list命名分别为namelist1, namelist2, relationlist.
+// 结构举例如下:
+// {"namelist1": [{"name":"Bill", "id":0},{"name":"Alice", "id":1},{"name":"Bob", "id":2},{"name":"Jim", "id":3},{"name":"Tom", "id":4},{"name":"Jerry", "id":5},{"name":"Kate", "id":6}],"namelist2": [{"name":"apple", "id":0},{"name":"pear", "id":1},{"name":"orange", "id":2},{"name":"peach", "id":3},{"name":"grape", "id":4},{"name":"watermelon", "id":5},{"name":"banana", "id":6},{"name":"tomato", "id":7}],  "relationlist":[{"l":0, "r": 0},{"l":0, "r": 1},{"l":0, "r": 2},{"l":1, "r": 0},{"l":1, "r": 2},{"l":2, "r": 1},{"l":2, "r": 5},{"l":2, "r": 7},{"l":3, "r": 4},{"l":4, "r": 7},{"l":5, "r": 5},{"l":6, "r": 5},{"l":6, "r": 7}]}
+//
+// 请求中的参数qtype为0代表第一种请求,1代表第二种请求.
+
+
 d3.json("data/treemap.json", function (error, list) {
 
     var width = 1200;
@@ -355,7 +374,7 @@ d3.json("data/treemap.json", function (error, list) {
     // format qs:
     // x,y1,y2,y3,y4,y5
     function query(qs) {
-        var url = "http://127.0.0.1:10000/get.php?qs=" + qs;
+        var url = "http://127.0.0.1:10000/get.php?qtype=0&qs=" + qs;
         xmlhttp = null;
         if (window.XMLHttpRequest) {// code for Firefox, Opera, IE7, etc.
             xmlhttp = new XMLHttpRequest();
@@ -421,6 +440,8 @@ d3.json("data/treemap.json", function (error, list) {
                     x2: shown_nodes[i].x,
                     y2: shown_nodes[i].y,
                     value: seg_res[i],
+                    name1: center.name,
+                    name2: shown_nodes[i].name,
                 });
             }
         }
@@ -475,6 +496,7 @@ d3.json("data/treemap.json", function (error, list) {
                 fill_opacity: "0.9",
                 value: segs[i].value,
                 type: "value",
+                seg: segs[i],
             });
         }
 
@@ -485,7 +507,7 @@ d3.json("data/treemap.json", function (error, list) {
             .attr("font-size", function (d) {
                 return d.font_size;
             })
-            .attr("fill", function (d) { 
+            .attr("fill", function (d) {
                 if (d.type == "value") {
                     return "red";
                 } else {
@@ -502,12 +524,151 @@ d3.json("data/treemap.json", function (error, list) {
             .attr("dy", 1)
             .on("click", function (d) {
                 if (d.type == "value") {
+                    var aj = $.ajax({
+                        url: "http://127.0.0.1:10000/get.php?qtype=1&qs=" + d.seg.name1 + "," + d.seg.name2,  
+                        type: 'get',
+                        success: function (data) {
+                            draw_table(data);    
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
                     $('#myModal').modal('show');
                 }
             })
             .text(function (d) {
                 return d.value;
             });
+
+        // 该函数主要画关系对应表
+        function draw_table(data) {
+
+            console.log(data);
+            var res = JSON.parse(data);
+            
+            var max_length = Math.max(res.namelist1.length, res.namelist2.length);
+            
+            var root_left = 40;
+            var root_right = 0;
+            var root_width = 350;
+            var root_height = max_length * 20 * 2;
+
+            var table_text_data = [];
+            
+            var table_nodes = [];
+            var l1 = res.namelist1.length;
+            var dh1 = (1.0 * root_height / l1);
+            for (var i = 0; i < l1; i++) {  
+                table_nodes.push({
+                    x: root_left,
+                    y: root_right + dh1 * i * 1.5,
+                    w: 50,
+                    h: dh1,
+                });
+                table_text_data.push({  
+                    x: root_left + 20,
+                    y: root_right + dh1 * i * 1.5 + dh1 * 0.5,
+                    value: res.namelist1[i].name,
+                });
+            }
+            
+            var l2 = res.namelist2.length;
+            var dh2 = (1.0 * root_height / l2);
+            for (var i = 0; i < l2; i++) {
+                table_nodes.push({
+                    x: root_left + root_width,
+                    y: root_right + dh2 * i * 1.5,
+                    w: 50,
+                    h: dh2, 
+                });
+                table_text_data.push({
+                    x: root_left + root_width + 20,
+                    y: root_right + dh2 * i * 1.5 + dh2 * 0.5,
+                    value: res.namelist2[i].name,
+                });
+            }
+            
+            var table_segs = [];
+            for (var i = 0; i < res.relationlist.length; i++) {    
+                table_segs.push({
+                    x1: root_left + 50,
+                    y1: table_nodes[res.relationlist[i].l].y + 0.5 * dh1,
+                    x2: root_left + root_width,
+                    y2: table_nodes[res.relationlist[i].r + l1].y + 0.5 * dh2,
+                });
+            }
+            
+            
+            d3.select("#model_svg").selectAll("svg").remove();
+            var model_svg = d3.select("#model_svg").append("svg")
+                .attr("width", 500)
+                .attr("height", root_height * 1.5)
+                .append("g")
+                .attr("transform", "translate(0,0)");
+
+            model_svg.selectAll("rect")
+                .data(table_nodes)
+                .enter()
+                .append("rect")
+                .attr("fill", "rgb(31, 119, 180)")
+                .attr("fill-opacity", function (d) {
+                    return "0.4";
+                })
+                .attr("x", function (d) {
+                    return d.x;
+                })
+                .attr("y", function (d) {
+                    return d.y;
+                })
+                .attr("width", function (d) {
+                    return d.w;
+                })
+                .attr("height", function (d) {
+                    return d.h;
+                });
+            
+            model_svg.selectAll("line")
+                .data(table_segs)
+                .enter()
+                .append("line")
+                .attr("stroke", "black")
+                .attr("x1", function (d) {
+                    return d.x1;
+                })
+                .attr("y1", function (d) {
+                    return d.y1;
+                })
+                .attr("x2", function (d) {
+                    return d.x2;
+                })
+                .attr("y2", function (d) {
+                    return d.y2;
+                });
+
+            model_svg.selectAll("text")
+                .data(table_text_data)
+                .enter()
+                .append("text")
+                .attr("font-size", function (d) {
+                    return "10px";
+                })
+                .attr("fill", function (d) {
+                    return "black";
+                })
+                .attr("x", function (d) {
+                    return d.x
+                })
+                .attr("y", function (d) {
+                    return d.y;
+                })
+                .attr("dx", -12)
+                .attr("dy", 1)
+                .text(function (d) {
+                    return d.value;
+                });
+            
+        }
     }
 });
 
